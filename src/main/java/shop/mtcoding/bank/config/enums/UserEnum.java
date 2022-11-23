@@ -1,12 +1,12 @@
 package shop.mtcoding.bank.config.enums;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public enum UserEnum {
     ADMIN("관리자"), CUSTOMER("고객");
 
-    private final String value;
+    private String value;
 }
