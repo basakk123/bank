@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import shop.mtcoding.bank.config.exception.CustomApiException;
 import shop.mtcoding.bank.domain.user.User;
 import shop.mtcoding.bank.domain.user.UserRepository;
 
@@ -23,7 +24,7 @@ public class LoginUserService implements UserDetailsService {
 
         User user = userRepository.findByUsername(username)
                 .orElseThrow(
-                        () -> new RuntimeException("username을 찾을 수 없습니다"));
+                        () -> new CustomApiException("username을 찾을 수 없습니다", 400));
         return new LoginUser(user);
     }
 }
