@@ -10,9 +10,9 @@
 - ExceptionHandling
 - 시큐리티 설정
 - logger 세팅
-- DTO Validation AOP
 - 회원가입
 - 로그인
+- DTO Validation AOP
 - JWT 로그인으로 변경
 - 서비스 기능 만들기
 
