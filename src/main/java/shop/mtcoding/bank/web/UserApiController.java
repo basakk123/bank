@@ -1,5 +1,7 @@
 package shop.mtcoding.bank.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,16 +24,17 @@ import shop.mtcoding.bank.service.UserService;
 public class UserApiController {
 
     private final UserService userService;
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @GetMapping("/user/session")
-    public String userSession(@AuthenticationPrincipal LoginUser loginUser) {
-        return "username :" + loginUser.getUsername();
-    }
+    // @GetMapping("/user/session")
+    // public String userSession(@AuthenticationPrincipal LoginUser loginUser) {
+    // return "username :" + loginUser.getUsername();
+    // }
 
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody JoinReqDto joinReqDto) {
+        log.debug("디버그 : join 실행됨");
         JoinRespDto joinRespDto = userService.회원가입(joinReqDto);
-        return new ResponseEntity<>(new ResponseDto<>("회원가입성공", null), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseDto<>("회원가입성공", joinRespDto), HttpStatus.CREATED);
     }
-
 }

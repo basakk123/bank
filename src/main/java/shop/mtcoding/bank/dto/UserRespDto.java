@@ -6,10 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.bank.domain.user.User;
 
-@Setter
-@Getter
 public class UserRespDto {
 
+    @Setter
+    @Getter
     public static class LoginRespDto {
         private Long id;
         private String username;
@@ -22,6 +22,8 @@ public class UserRespDto {
         }
     }
 
+    @Setter
+    @Getter
     public static class JoinRespDto {
         private Long id;
         private String username;

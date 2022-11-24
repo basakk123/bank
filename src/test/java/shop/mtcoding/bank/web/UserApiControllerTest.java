@@ -1,6 +1,8 @@
 package shop.mtcoding.bank.web;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -47,7 +48,7 @@ public class UserApiControllerTest {
         System.out.println("디버그 : " + responseBody);
 
         // then
-        resultActions.andExpect(MockMvcResultMatchers.status().isCreated());
-        resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.data.username").value("ssar"));
+        resultActions.andExpect(status().isCreated());
+        resultActions.andExpect(jsonPath("$.data.username").value("ssar"));
     }
 }

@@ -17,4 +17,4 @@ spring:
 
 logging:
   level:
-    '[site.mtcoding.bank]': INFO
+    '[shop.mtcoding.bank]': INFO

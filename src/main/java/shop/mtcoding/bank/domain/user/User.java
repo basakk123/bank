@@ -36,7 +36,7 @@ public class User extends AudingTime {
     private String email;
 
     @Enumerated(EnumType.STRING) // enum 쓸 때 어노테이션
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private UserEnum role; // ADMIN, CUSTOMER
 
     @Builder

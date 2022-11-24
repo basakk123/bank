@@ -24,7 +24,7 @@ import shop.mtcoding.bank.domain.account.Account;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@Table(name = "account")
+@Table(name = "transaction")
 @Entity
 public class Transaction extends AudingTime {
 
