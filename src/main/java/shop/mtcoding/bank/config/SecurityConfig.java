@@ -22,9 +22,6 @@ public class SecurityConfig {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    private UserRepository userRepository;
-
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -36,7 +33,6 @@ public class SecurityConfig {
             log.debug("디버그 : SecurityConfig의 configure");
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             http.addFilter(new JwtAuthenticationFilter(authenticationManager));
-            http.addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository));
         }
     }
 
