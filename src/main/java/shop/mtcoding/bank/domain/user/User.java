@@ -13,29 +13,29 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import shop.mtcoding.bank.config.enums.UserEnum;
 import shop.mtcoding.bank.domain.AudingTime;
 
+@ToString
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Table(name = "users")
 @Entity
 public class User extends AudingTime {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue
     private Long id;
 
     @Column(unique = true, nullable = false, length = 20)
     private String username;
-
     @Column(nullable = false, length = 60)
     private String password;
-
     @Column(nullable = false, length = 50)
     private String email;
 
-    @Enumerated(EnumType.STRING) // enum 쓸 때 어노테이션
+    @Enumerated(EnumType.STRING) // enum 쓸때 어노테이션
     @Column(nullable = false)
     private UserEnum role; // ADMIN, CUSTOMER
 
@@ -47,4 +47,5 @@ public class User extends AudingTime {
         this.email = email;
         this.role = role;
     }
+
 }

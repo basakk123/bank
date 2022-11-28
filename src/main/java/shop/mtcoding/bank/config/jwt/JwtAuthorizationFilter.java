@@ -1,7 +1,6 @@
 package shop.mtcoding.bank.config.jwt;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -16,19 +15,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.auth0.jwt.interfaces.Header;
-
 import shop.mtcoding.bank.config.auth.LoginUser;
-import shop.mtcoding.bank.config.enums.UserEnum;
-import shop.mtcoding.bank.domain.user.User;
-import shop.mtcoding.bank.domain.user.UserRepository;
 import shop.mtcoding.bank.util.CustomResponseUtil;
 
-// "/api/transaction/**", "/api/user/**", "/api/account/**", "/api/admin/**"
-// 위 주소일 때만 동작해야함
+/*
+ * 모든 주소일 때 동작함.
+ */
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -39,41 +31,31 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        log.debug("디버그 : doFilterInternal 호출됨");
 
-        // 1. 헤더 검증
+        // 1. 헤더검증 후 헤더가 있다면 토큰 검증 후 임시 세션 생성
         if (isHeaderVerify(request, response)) {
-            return;
-        }
-
-        // 2. 토큰 파싱하기 (Bearer 없애기)
-        String token = request.getHeader(JwtProperties.HEADER_STRING)
-                .replace(JwtProperties.TOKEN_PREFIX, "");
-
-        try {
-            // 3. 토큰 검정
+            // 토큰 파싱하기 (Bearer 없애기)
+            String token = request.getHeader(JwtProperties.HEADER_STRING)
+                    .replace(JwtProperties.TOKEN_PREFIX, "");
+            // 토큰 검증
             LoginUser loginUser = JwtProcess.verify(token);
 
-            // 4. 강제로 임시 세션 생성
+            // 임시 세션 생성
             Authentication authentication = new UsernamePasswordAuthenticationToken(loginUser,
                     null, loginUser.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            // 5. 다음 필터로 이동
-            chain.doFilter(request, response);
-            return;
-        } catch (Exception e) {
-            CustomResponseUtil.fail(response, e.getMessage());
         }
+
+        // 2. 세션이 있는 경우와 없는 경우로 나뉘어서 컨트롤러로 진입함
+        chain.doFilter(request, response);
     }
 
     private boolean isHeaderVerify(HttpServletRequest request, HttpServletResponse response) {
         String header = request.getHeader(JwtProperties.HEADER_STRING);
         if (header == null || !header.startsWith(JwtProperties.TOKEN_PREFIX)) {
-            CustomResponseUtil.fail(null, "토큰 헤더가 없습니다");
-            return true;
-        } else {
             return false;
+        } else {
+            return true;
         }
     }
 }

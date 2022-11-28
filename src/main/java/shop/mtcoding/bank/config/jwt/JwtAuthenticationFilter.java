@@ -54,6 +54,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
+            log.debug("디버그5 authentication : null이 리턴됨");
             return authentication;
         } catch (Exception e) {
             throw new InternalAuthenticationServiceException(e.getMessage());
@@ -63,16 +64,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException failed) throws IOException, ServletException {
-
         CustomResponseUtil.fail(response, "로그인 실패");
-
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
             Authentication authResult) throws IOException, ServletException {
         log.debug("디버그 : successfulAuthentication 요청됨");
-
         // 1. 세션에 있는 UserDetails 가져오기
         LoginUser loginUser = (LoginUser) authResult.getPrincipal();
 
@@ -80,7 +78,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String jwtToken = JwtProcess.create(loginUser);
 
         // 3. 토큰을 헤더에 담기
-        response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
+        response.addHeader(JwtProperties.HEADER_STRING, jwtToken);
 
         // 4. 토큰 담아서 성공 응답하기
         LoginRespDto loginRespDto = new LoginRespDto(loginUser.getUser());
