@@ -35,9 +35,11 @@ public class UserApiControllerTest {
     public void join_test() throws Exception {
         // given
         JoinReqDto joinReqDto = new JoinReqDto();
-        joinReqDto.setUsername("ssar");
+        joinReqDto.setUsername("lala");
         joinReqDto.setPassword("1234");
-        joinReqDto.setEmail("ssar@nate.com");
+        joinReqDto.setEmail("lala@nate.com");
+        joinReqDto.setFullName("라라");
+
         String requestBody = om.writeValueAsString(joinReqDto);
 
         // when
@@ -49,6 +51,6 @@ public class UserApiControllerTest {
 
         // then
         resultActions.andExpect(status().isCreated());
-        resultActions.andExpect(jsonPath("$.data.username").value("ssar"));
+        resultActions.andExpect(jsonPath("$.data.username").value("lala"));
     }
 }

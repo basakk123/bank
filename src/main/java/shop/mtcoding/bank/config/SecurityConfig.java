@@ -27,6 +27,7 @@ public class SecurityConfig {
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
+        log.debug("디버그 : passwordEncoder Bean 등록됨");
         return new BCryptPasswordEncoder();
     }
 
@@ -38,7 +39,7 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             http.addFilter(new JwtAuthenticationFilter(authenticationManager));
             http.addFilter(new JwtAuthorizationFilter(authenticationManager));
-            http.cors();
+            // http.cors();
         }
     }
 
@@ -51,7 +52,7 @@ public class SecurityConfig {
         // ExceptionTranslationFilter (인증 권한 확인 필터)
         http.exceptionHandling().authenticationEntryPoint(
                 (request, response, authException) -> {
-                    CustomResponseUtil.fail(response, "권한없음");
+                    CustomResponseUtil.forbbiden(response, "권한없음");
                 });
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
