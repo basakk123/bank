@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shop.mtcoding.bank.dto.UserReqDto.JoinReqDto;
 
+@Sql("classpath:db/truncate.sql") // 롤백 대신 사용 (auto_increment 초기화 + 데이터 비우기)s
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.MOCK)
