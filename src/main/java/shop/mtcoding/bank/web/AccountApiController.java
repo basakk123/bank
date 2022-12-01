@@ -32,7 +32,9 @@ public class AccountApiController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @PutMapping("/account/{accountId}/delete")
-    public ResponseEntity<?> delete(@PathVariable Long accountId, @RequestBody AccountDeleteReqDto accountDeleteReqDto,
+    public ResponseEntity<?> delete(
+            @PathVariable Long accountId,
+            @RequestBody AccountDeleteReqDto accountDeleteReqDto,
             @AuthenticationPrincipal LoginUser loginUser) {
         accountService.본인_계좌삭제(accountDeleteReqDto, loginUser.getUser().getId(), accountId);
         return new ResponseEntity<>(new ResponseDto<>("계좌삭제완료", null), HttpStatus.OK);

@@ -19,7 +19,7 @@ import shop.mtcoding.bank.config.exception.CustomApiException;
 import shop.mtcoding.bank.domain.AudingTime;
 import shop.mtcoding.bank.domain.user.User;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Table(name = "account")
 @Entity

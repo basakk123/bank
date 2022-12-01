@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.bank.domain.account.Account;
 import shop.mtcoding.bank.domain.user.User;
-import shop.mtcoding.bank.dto.AccountRespDto.AccountListRespDto.AccountDto;
 
 public class AccountRespDto {
     @Setter
