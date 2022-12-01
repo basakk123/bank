@@ -27,4 +27,24 @@ public class TransactionRespDto {
             this.depositAccountBalance = transaction.getDepositAccountBalance();
         }
     }
+
+    @Setter
+    @Getter
+    public static class WithdrawRespDto {
+        private Long id;
+        private Long amount;
+        private String gubun;
+        private String from;
+        private String to;
+        private Long withdrawAccountBalance;
+
+        public WithdrawRespDto(Transaction transaction) {
+            this.id = transaction.getId();
+            this.amount = transaction.getAmount();
+            this.gubun = transaction.getGubun().getValue(); // 출금
+            this.from = transaction.getDepositAccount().getNumber() + "";
+            this.to = "ATM";
+            this.withdrawAccountBalance = transaction.getWithdrawAccountBalance();
+        }
+    }
 }

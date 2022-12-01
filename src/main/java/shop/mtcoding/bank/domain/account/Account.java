@@ -64,7 +64,7 @@ public class Account extends AudingTime {
 
     // 계좌 패스워드 확인
     public void checkPassword(String password) {
-        if (this.password != password) {
+        if (!this.password.equals(password)) {
             throw new CustomApiException("계좌 패스워드가 틀렸습니다", HttpStatus.BAD_REQUEST);
         }
     }
@@ -83,5 +83,12 @@ public class Account extends AudingTime {
 
     public void 입금하기(Long amount) {
         this.balance += amount;
+    }
+
+    public void 출금하기(Long amount) {
+        if (balance < amount) {
+            throw new CustomApiException("계좌 잔액이 부족합니다", HttpStatus.BAD_REQUEST);
+        }
+        this.balance -= amount;
     }
 }

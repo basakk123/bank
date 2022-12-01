@@ -11,13 +11,12 @@ interface Dao {
 }
 
 @RequiredArgsConstructor
-public class TransacationRepositoryImpl implements Dao {
+public class TransactionRepositoryImpl implements Dao {
 
     private final EntityManager em;
 
     @Override
     public List<Transaction> findAllByAccountId(Long accountId) {
-        // TODO Auto-generated method stub
         return null;
     }
 
