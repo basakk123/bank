@@ -40,30 +40,13 @@ public class AccountApiController {
         return new ResponseEntity<>(new ResponseDto<>("계좌삭제완료", null), HttpStatus.OK);
     }
 
+    // SELECT 두번
     @GetMapping("/user/{userId}/account")
-    public ResponseEntity<?> list(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
-        if (userId != loginUser.getUser().getId()) {
-            throw new CustomApiException("권한이 없습니다", HttpStatus.FORBIDDEN);
-        }
-        AccountListRespDto accountListRespDto = accountService.본인_계좌목록보기(userId);
-        return new ResponseEntity<>(new ResponseDto<>("본인 계좌목록보기 성공", accountListRespDto), HttpStatus.OK);
-    }
-
-    @GetMapping("/v2/user/{userId}/account")
     public ResponseEntity<?> list2(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
         if (userId != loginUser.getUser().getId()) {
             throw new CustomApiException("권한이없습니다.", HttpStatus.FORBIDDEN);
         }
         AccountListRespDto accountListRespDto = accountService.본인_계좌목록보기v2(userId);
-        return new ResponseEntity<>(new ResponseDto<>("본인 계좌목록보기 성공", accountListRespDto), HttpStatus.OK);
-    }
-
-    @GetMapping("/v3/user/{userId}/account")
-    public ResponseEntity<?> list3(@PathVariable Long userId, @AuthenticationPrincipal LoginUser loginUser) {
-        if (userId != loginUser.getUser().getId()) {
-            throw new CustomApiException("권한이없습니다.", HttpStatus.FORBIDDEN);
-        }
-        AccountListRespDtoV3 accountListRespDto = accountService.본인_계좌목록보기v3(userId);
         return new ResponseEntity<>(new ResponseDto<>("본인 계좌목록보기 성공", accountListRespDto), HttpStatus.OK);
     }
 
