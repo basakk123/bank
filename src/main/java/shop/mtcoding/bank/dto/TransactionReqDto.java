@@ -1,5 +1,7 @@
 package shop.mtcoding.bank.dto;
 
+import javax.validation.constraints.NotEmpty;
+
 import lombok.Getter;
 import lombok.Setter;
 import shop.mtcoding.bank.config.enums.TransactionEnum;
@@ -49,8 +51,13 @@ public class TransactionReqDto {
     @Setter
     @Getter
     public static class WithdrawReqDto {
+        @NotEmpty
         private Long amount;
+
+        @NotEmpty
         private String password;
+
+        @NotEmpty
         private String gubun;
 
         public Transaction toEntity(Account withdrawAccount) {
@@ -75,7 +82,7 @@ public class TransactionReqDto {
         public Transaction toEntity(Account withdrawAccount, Account depositAccount) {
             Transaction transaction = Transaction.builder()
                     .withdrawAccount(withdrawAccount)
-                    .depositAccount(null)
+                    .depositAccount(depositAccount)
                     .withdrawAccountBalance(withdrawAccount.getBalance())
                     .depositAccountBalance(depositAccount.getBalance())
                     .amount(amount)

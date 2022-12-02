@@ -1,5 +1,7 @@
 package shop.mtcoding.bank.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import shop.mtcoding.bank.dto.TransactionReqDto.DepositReqDto;
 import shop.mtcoding.bank.dto.TransactionReqDto.TransferReqDto;
 import shop.mtcoding.bank.dto.TransactionReqDto.WithdrawReqDto;
 import shop.mtcoding.bank.dto.TransactionRespDto.DepositRespDto;
+import shop.mtcoding.bank.dto.TransactionRespDto.TransactionListRespDto;
 import shop.mtcoding.bank.dto.TransactionRespDto.TransferRespDto;
 import shop.mtcoding.bank.dto.TransactionRespDto.WithdrawRespDto;
 
@@ -67,6 +70,20 @@ public class TransactionService {
     // // DTO 리턴
     // return new WithdrawRespDto(transactionPS);
     // }
+
+    public TransactionListRespDto 입출금목록보기(Long userId, Long accountId, String gubun, Integer page) {
+        // 해당 계좌 존재 여부
+        Account accountPS = accountRepository.findById(accountId)
+                .orElseThrow(() -> new CustomApiException("해당 계좌 없음", HttpStatus.BAD_REQUEST));
+
+        // 계좌 소유자 확인
+        accountPS.isOwner(userId);
+
+        // 입출금 내역조회
+        List<Transaction> transactionListPS = transactionRepository.findAllByAccountId(accountId, gubun, page);
+
+        return new TransactionListRespDto(transactionListPS);
+    }
 
     @Transactional
     public WithdrawRespDto 출금하기(WithdrawReqDto withdrawReqDto, Long number, Long userId) {
@@ -133,7 +150,7 @@ public class TransactionService {
 
         // 출금계좌와 입금계좌가 동일하면 거부
         if (withdrawNumber == depositNumber) {
-            throw new CustomApiException("입출금 계좌가 동일할 수 없습니다", HttpStatus.BAD_REQUEST);
+            throw new CustomApiException("입출금계좌가 동일할 수 없습니다", HttpStatus.BAD_REQUEST);
         }
 
         // 출금계좌 존재 확인
@@ -149,7 +166,7 @@ public class TransactionService {
             throw new CustomApiException("0원이 입금될 수 없습니다", HttpStatus.BAD_REQUEST);
         }
 
-        // 출금 계좌 소유자 체크
+        // 출금계좌 소유자 체크
         withdrawAccountPS.isOwner(userId);
 
         // 출금계좌 비밀번호 확인
@@ -164,6 +181,7 @@ public class TransactionService {
 
         // DTO 응답
         return new TransferRespDto(transactionPS);
+
     }
 
 }
