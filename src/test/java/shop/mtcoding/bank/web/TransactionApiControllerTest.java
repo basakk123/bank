@@ -79,4 +79,29 @@ public class TransactionApiControllerTest extends DummyEntity {
         resultActions.andExpect(status().isCreated());
         resultActions.andExpect(jsonPath("$.data.from").value("ATM"));
     }
+
+    @WithUserDetails(value = "ssar", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @Test
+    public void withdraw_test() throws Exception {
+        // given
+        Long number = 1111L;
+
+        WithdrawReqDto withdrawReqDto = new WithdrawReqDto();
+        withdrawReqDto.setPassword("1234");
+        withdrawReqDto.setAmount(500L);
+        withdrawReqDto.setGubun("WITHDRAW");
+        String requestBody = om.writeValueAsString(withdrawReqDto);
+        System.out.println("테스트 : " + requestBody);
+
+        // when
+        ResultActions resultActions = mvc
+                .perform(post("/api/account/" + number + "/withdraw").content(requestBody)
+                        .contentType(APPLICATION_JSON_UTF8));
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        System.out.println("테스트 : " + responseBody);
+
+        // then
+        resultActions.andExpect(status().isCreated());
+        resultActions.andExpect(jsonPath("$.data.withdrawAccountBalance").value(500));
+    }
 }

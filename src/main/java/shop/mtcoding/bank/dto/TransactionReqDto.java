@@ -26,10 +26,29 @@ public class TransactionReqDto {
         }
     }
 
+    // @Setter
+    // @Getter
+    // public static class WithdrawReqDto {
+    // private Long number;
+    // private Long amount;
+    // private String password;
+    // private String gubun;
+
+    // public Transaction toEntity(Account withdrawAccount) {
+    // Transaction transaction = Transaction.builder()
+    // .withdrawAccount(withdrawAccount)
+    // .depositAccount(null)
+    // .withdrawAccountBalance(withdrawAccount.getBalance())
+    // .amount(amount)
+    // .gubun(TransactionEnum.valueOf(gubun))
+    // .build();
+    // return transaction;
+    // }
+    // }
+
     @Setter
     @Getter
     public static class WithdrawReqDto {
-        private Long number;
         private Long amount;
         private String password;
         private String gubun;

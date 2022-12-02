@@ -60,8 +60,8 @@ public class AccountService {
 
     // 양방향 매핑
     public AccountListRespDtoV3 본인_계좌목록보기v3(Long userId) {
-        User user = userRepository.findByActiveUserIdv3(userId);
-        return new AccountListRespDtoV3(user);
+        User userPS = userRepository.findByActiveUserIdv3(userId);
+        return new AccountListRespDtoV3(userPS);
     }
 
     @Transactional
